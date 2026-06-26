@@ -83,7 +83,6 @@ h1 {
   font-size: 14px;
 }
 
-<<<<<<< HEAD
 .tarjeta.resaltada {
   background-color: #fff9c4;
   border: 2px solid #f0c000;
@@ -172,89 +171,29 @@ tr:hover {
   margin-top: 8px;
   display: none;
 }
-=======
-        .tarjeta.resaltada {
-            background-color: #fff9c4;
-            border: 2px solid #f0c000;
-        }
+.btn-eliminar {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-        /* Formulario */
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
 
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: 0 auto 30px auto;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
-        form h2 {
-            margin-top: 0;
-            color: #444;
-        }
-
-        form label {
-            display: block;
-            margin-top: 10px;
-            color: #555;
-        }
-
-        form input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 4px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-
-        form button {
-            margin-top: 15px;
-            width: 100%;
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        form button:hover {
-            background-color: #357abd;
-        }
-
-        
-
-        /* Tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
-        th {
-            background-color: #4a90e2;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
->>>>>>> 4352911e1198ed40513af5d6b7eed68c88276676
+/* Color del IMC según categoría */
+.imc-bajo {
+  color: #e67e22;
+  font-weight: bold;
+}
+.imc-normal {
+  color: #27ae60;
+  font-weight: bold;
+}
+.imc-sobrepeso {
+  color: #e74c3c;
+  font-weight: bold;
+}

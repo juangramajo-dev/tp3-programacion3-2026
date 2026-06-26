@@ -61,6 +61,34 @@
      <script>
         let personas = [];
 
+        // Función para calcular el IMC
+        function calcularIMC(peso, altura) {
+            let imc = peso / (altura * altura);
+            return Math.round(imc * 100) / 100; // redondear a 2 decimales
+        }
+
+        // Función para obtener la categoría del IMC
+        function categoriaIMC(imc) {
+            if (imc < 18.5) {
+                return "Bajo peso";
+            } else if (imc < 25) {
+                return "Normal";
+            } else {
+                return "Sobrepeso";
+            }
+        }
+
+        // Función para obtener la clase CSS según IMC
+        function claseIMC(imc) {
+            if (imc < 18.5) {
+                return "imc-bajo";
+            } else if (imc < 25) {
+                return "imc-normal";
+            } else {
+                return "imc-sobrepeso";
+            }
+        }
+
         function agregarPersona() {
             let nombre   = document.getElementById("nombre").value.trim();
             let apellido = document.getElementById("apellido").value.trim();
@@ -69,6 +97,7 @@
             let peso     = document.getElementById("peso").value;
             let msgError = document.getElementById("error");
 
+            // Validar que todos los campos estén completos
             if (nombre === "" || apellido === "" || edad === "" || altura === "" || peso === "") {
                 msgError.style.display = "block";
                 return;
@@ -106,6 +135,10 @@
         }
 
         function agregarFila(persona, indice) {
+            let imc = calcularIMC(persona.peso, persona.altura);
+            let categoria = categoriaIMC(imc);
+            let clase = claseIMC(imc);
+
             let tbody = document.getElementById("cuerpoTabla");
             let fila = document.createElement("tr");
             fila.id = "fila-" + indice;
@@ -116,7 +149,7 @@
                 "<td>" + persona.edad + "</td>" +
                 "<td>" + persona.altura + "</td>" +
                 "<td>" + persona.peso + "</td>" +
-                "<td>"+ "</td>" +
+                "<td class='" + clase + "'>" + imc + " (" + categoria + ")</td>" +
                 "<td><button class='btn-eliminar' onclick='eliminarFila(" + indice + ")'>Eliminar</button></td>";
 
             tbody.appendChild(fila);

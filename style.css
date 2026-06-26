@@ -1,0 +1,89 @@
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .volver {
+            display: inline-block;
+            background-color: #888;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .volver:hover {
+            background-color: #666;
+        }
+
+        .controles {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controles button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .controles button:hover {
+            background-color: #357abd;
+        }
+
+        #contenedor {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .tarjeta {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 160px;
+            text-align: center;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .tarjeta:hover {
+            transform: scale(1.05);
+        }
+
+        .tarjeta .emoji {
+            font-size: 40px;
+        }
+
+        .tarjeta h3 {
+            margin: 10px 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .tarjeta p {
+            margin: 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .tarjeta.resaltada {
+            background-color: #fff9c4;
+            border: 2px solid #f0c000;
+        }

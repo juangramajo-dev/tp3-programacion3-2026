@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+     <!-- React y ReactDOM desde CDN (sin necesidad de instalar nada) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel para poder usar JSX directo en el browser -->
+    <script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
     <title>Ejercicio 3 - Personas con React</title>
 </head>
 
@@ -15,6 +20,219 @@
 
     <div id="root"></div>
 
+   
+
+
+    <script type="text/babel">
+
+        function calcularIMC(peso, altura) {
+            const imc = peso / (altura * altura);
+            return Math.round(imc * 100) / 100;
+        }
+
+        function categoriaIMC(imc) {
+            if (imc < 18.5) return "Bajo peso";
+            if (imc < 25) return "Normal";
+            return "Sobrepeso";
+        }
+
+        function claseIMC(imc) {
+            if (imc < 18.5) return "imc-bajo";
+            if (imc < 25) return "imc-normal";
+            return "imc-sobrepeso";
+        }
+
+        // Componente: FilaPersona
+        function FilaPersona(props) {
+            const persona = props.persona;
+            const imc = calcularIMC(persona.peso, persona.altura);
+            const categoria = categoriaIMC(imc);
+            const clase = claseIMC(imc);
+
+            return (
+                <tr>
+                    <td>{persona.nombre}</td>
+                    <td>{persona.apellido}</td>
+                    <td>{persona.edad}</td>
+                    <td>{persona.altura}</td>
+                    <td>{persona.peso}</td>
+                    <td className={clase}>{imc} ({categoria})</td>
+                    <td>
+                        <button
+                            className="btn-eliminar"
+                            onClick={() => props.onEliminar(persona.id)}
+                        >
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            );
+        }
+
+        // Componente: TablaPersonas
+        function TablaPersonas(props) {
+            const personas = props.personas;
+
+            return (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Altura (m)</th>
+                            <th>Peso (kg)</th>
+                            <th>IMC</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {personas.map(function (persona) {
+                            return (
+                                <FilaPersona
+                                    key={persona.id}
+                                    persona={persona}
+                                    onEliminar={props.onEliminar}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </table>
+            );
+        }
+
+        // Componente: Formulario
+        function Formulario(props) {
+            const [nombre, setNombre] = React.useState("");
+            const [apellido, setApellido] = React.useState("");
+            const [edad, setEdad] = React.useState("");
+            const [altura, setAltura] = React.useState("");
+            const [peso, setPeso] = React.useState("");
+            const [error, setError] = React.useState("");
+
+            function handleAgregar() {
+                if (!nombre || !apellido || !edad || !altura || !peso) {
+                    setError("Por favor compconstá todos los campos.");
+                    return;
+                }
+
+                const edadNum = parseInt(edad);
+                const alturaNum = parseFloat(altura);
+                const pesoNum = parseFloat(peso);
+
+                if (isNaN(edadNum) || isNaN(alturaNum) || isNaN(pesoNum) ||
+                    edadNum <= 0 || alturaNum <= 0 || pesoNum <= 0) {
+                    setError("Los valores numéricos deben ser positivos.");
+                    return;
+                }
+
+                setError("");
+
+                props.onAgregar({
+                    nombre: nombre,
+                    apellido: apellido,
+                    edad: edadNum,
+                    altura: alturaNum,
+                    peso: pesoNum
+                });
+
+                // Limpiar el formulario
+                setNombre("");
+                setApellido("");
+                setEdad("");
+                setAltura("");
+                setPeso("");
+            }
+
+            return (
+                <div className="formulario">
+                    <h2>Agregar persona</h2>
+
+                    <label>Nombre:</label>
+                    <input
+                        type="text"
+                        placeholder="Ej: Juan"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                    />
+
+                    <label>Apellido:</label>
+                    <input
+                        type="text"
+                        placeholder="Ej: García"
+                        value={apellido}
+                        onChange={(e) => setApellido(e.target.value)}
+                    />
+
+                    <label>Edad:</label>
+                    <input
+                        type="number"
+                        placeholder="Ej: 25"
+                        value={edad}
+                        onChange={(e) => setEdad(e.target.value)}
+                    />
+
+                    <label>Altura (metros):</label>
+                    <input
+                        type="number"
+                        placeholder="Ej: 1.75"
+                        step="0.01"
+                        value={altura}
+                        onChange={(e) => setAltura(e.target.value)}
+                    />
+
+                    <label>Peso (kg):</label>
+                    <input
+                        type="number"
+                        placeholder="Ej: 70"
+                        step="0.1"
+                        value={peso}
+                        onChange={(e) => setPeso(e.target.value)}
+                    />
+
+                    {error && <p className="error">{error}</p>}
+
+                    <button onClick={handleAgregar}>Agregar</button>
+                </div>
+            );
+        }
+
+        // Componente principal: App
+        function App() {
+            const [personas, setPersonas] = React.useState([]);
+            // Para generar IDs únicos
+            const [contador, setContador] = React.useState(0);
+
+            // Agrega una nueva persona al estado
+            function agregarPersona(nuevaPersona) {
+                const personaConId = {
+                    id: contador,
+                    ...nuevaPersona
+                };
+                setPersonas([...personas, personaConId]);
+                setContador(contador + 1);
+            }
+
+            // Elimina una persona del estado por su id
+            function eliminarPersona(id) {
+                const nuevasPersonas = personas.filter(function (p) {
+                    return p.id !== id;
+                });
+                setPersonas(nuevasPersonas);
+            }
+
+            return (
+                <div>
+                    <Formulario onAgregar={agregarPersona} />
+                    <TablaPersonas personas={personas} onEliminar={eliminarPersona} />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+
+    </script>
 </body>
 
 </html>

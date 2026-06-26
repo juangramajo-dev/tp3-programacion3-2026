@@ -13,14 +13,93 @@
     <h1>Ejercicio 1 - Flexbox</h1>
 
     <div class="controles">
-        <button>Ordenar A-Z</button>
-        <button>Resaltar más caro</button>
-        <button>Mostrar baratos (< $500)</button>
-        <button>Mostrar todos</button>
+        <button onclick="ordenarPorNombre()">Ordenar A-Z</button>
+        <button onclick="resaltarMasCaro()">Resaltar más caro</button>
+        <button onclick="filtrarBaratos()">Mostrar baratos (< $500)</button>
+        <button onclick="mostrarTodos()">Mostrar todos</button>
     </div>
 
     <div id="contenedor">
     </div>
 
+    <script>
+        let productos = [
+            { nombre: "Manzana", emoji: "🍎", precio: 200 },
+            { nombre: "Banana", emoji: "🍌", precio: 150 },
+            { nombre: "Naranja", emoji: "🍊", precio: 180 },
+            { nombre: "Uva", emoji: "🍇", precio: 600 },
+            { nombre: "Sandía", emoji: "🍉", precio: 450 },
+            { nombre: "Frutilla", emoji: "🍓", precio: 750 },
+            { nombre: "Mango", emoji: "🥭", precio: 390 },
+            { nombre: "Pera", emoji: "🍐", precio: 300 }
+        ];
+
+        let productosActuales = productos.slice();
+
+        function mostrarTarjetas(lista) {
+            let contenedor = document.getElementById("contenedor");
+            contenedor.innerHTML = "";
+
+            for (let i = 0; i < lista.length; i++) {
+                let producto = lista[i];
+
+                let tarjeta = document.createElement("div");
+                tarjeta.className = "tarjeta";
+
+                tarjeta.innerHTML =
+                    "<div class='emoji'>" + producto.emoji + "</div>" +
+                    "<h3>" + producto.nombre + "</h3>" +
+                    "<p>$" + producto.precio + "</p>";
+
+                contenedor.appendChild(tarjeta);
+            }
+        }
+
+        function ordenarPorNombre() {
+            let ordenados = productosActuales.slice();
+            ordenados.sort(function (a, b) {
+                if (a.nombre < b.nombre) return -1;
+                if (a.nombre > b.nombre) return 1;
+                return 0;
+            });
+            mostrarTarjetas(ordenados);
+        }
+
+        function resaltarMasCaro() {
+            mostrarTarjetas(productosActuales);
+
+            let precioMax = 0;
+            for (let i = 0; i < productosActuales.length; i++) {
+                if (productosActuales[i].precio > precioMax) {
+                    precioMax = productosActuales[i].precio;
+                }
+            }
+
+            let tarjetas = document.querySelectorAll(".tarjeta");
+            for (let i = 0; i < productosActuales.length; i++) {
+                if (productosActuales[i].precio === precioMax) {
+                    tarjetas[i].classList.add("resaltada");
+                }
+            }
+        }
+
+        function filtrarBaratos() {
+            let baratos = [];
+            for (let i = 0; i < productos.length; i++) {
+                if (productos[i].precio < 500) {
+                    baratos.push(productos[i]);
+                }
+            }
+            productosActuales = baratos;
+            mostrarTarjetas(baratos);
+        }
+
+        function mostrarTodos() {
+            productosActuales = productos.slice();
+            mostrarTarjetas(productosActuales);
+        }
+
+        mostrarTarjetas(productos);
+    </script>
 </body>
 </html>
